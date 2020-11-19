@@ -22,3 +22,13 @@ export const invalidLengthError = (
     : `${paramName} should be at least ${min} characters long.`,
   field: paramName,
 });
+
+export const invalidRangeError = (
+  paramName: string,
+  { min, max }: { min: number; max?: number },
+): ErrorWithField => ({
+  message: max
+    ? `${paramName} should be between ${min} and ${max}.`
+    : `${paramName} should be at least ${min}.`,
+  field: paramName,
+});

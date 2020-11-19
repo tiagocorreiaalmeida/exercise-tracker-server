@@ -26,14 +26,14 @@ export class Result<T> {
     return this.value as T;
   }
 
-  getError() {
+  getError(): HandledError {
     if (!this.isError) {
       throw new Error('');
     }
     return this.error as HandledError;
   }
 
-  getErrorMessage() {
+  getErrorMessage(): string {
     return this.getError().message;
   }
 

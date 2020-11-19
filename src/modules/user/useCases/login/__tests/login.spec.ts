@@ -9,7 +9,7 @@ import { passwordService } from '../../../services/password';
 import { AUTHENTICATION_FAILED } from '../loginErrors';
 import { UniqueEntityID } from '../../../../../shared/core/UniqueEntityID';
 
-const generateUserCreateProps = () => {
+const generateUserCreateData = () => {
   const password = 'a'.repeat(PASSWORD_MIN_LENGTH);
 
   return {
@@ -23,8 +23,8 @@ const generateUserCreateProps = () => {
 
 describe('Login', () => {
   const userRepo = new InMemoryUserRepo();
-  const verifiedUser = generateUserCreateProps();
-  const nonVerifiedUser = generateUserCreateProps();
+  const verifiedUser = generateUserCreateData();
+  const nonVerifiedUser = generateUserCreateData();
   const loginUseCase = new LoginUseCase(userRepo, authService, passwordService);
 
   beforeAll(async () => {
