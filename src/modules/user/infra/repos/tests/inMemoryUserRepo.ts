@@ -36,10 +36,10 @@ export class InMemoryUserRepo implements IUserRepo {
     return user || null;
   }
 
-  async exists(userId: string): Promise<User | null> {
+  async exists(userId: string): Promise<boolean> {
     const user = this.users.find((storedUser) => storedUser.id === userId);
 
-    return user || null;
+    return !!user;
   }
 }
 
