@@ -2,7 +2,7 @@ import { CreateActivityUseCase } from '../createActivityUseCase';
 import { InMemoryActivityRepo } from '../../../infra/repos/tests/inMemoryActivityRepo';
 import { InMemoryUserRepo } from '../../../../user/infra/repos/tests/inMemoryUserRepo';
 import { DUPLICATED_ACTIVITY_NAME, USER_NOT_FOUND } from '../createActivityErrors';
-import { generateUserCreateProps } from '../../../../../shared/utils/tests/user';
+import { generateUserCreateData } from '../../../../../shared/utils/tests/user';
 import { CreateActivityDTO } from '../createActivityUseCaseDTO';
 import { TrackType } from '../../../domain/activity';
 import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from '../createActivityValidator';
@@ -18,7 +18,7 @@ const nameError = invalidLengthError('name', {
 describe('CreateActivity', () => {
   const userRepo = new InMemoryUserRepo();
   const activityRepo = new InMemoryActivityRepo();
-  const user = generateUserCreateProps();
+  const user = generateUserCreateData();
   const createActivityUseCase = new CreateActivityUseCase(activityRepo, userRepo);
 
   const validDto: CreateActivityDTO = {

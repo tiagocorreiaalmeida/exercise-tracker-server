@@ -6,7 +6,15 @@ import { UniqueEntityID } from '../../core/UniqueEntityID';
 
 const passwordService = new BcryptPasswordService();
 
-export const generateUserCreateProps = () => {
+interface UserCreateData {
+  id: string;
+  email: string;
+  password: string;
+  plainTextPassword: string;
+  username: string;
+}
+
+export const generateUserCreateData = (): UserCreateData => {
   const password = 'a'.repeat(PASSWORD_MIN_LENGTH);
 
   return {

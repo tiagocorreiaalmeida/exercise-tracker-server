@@ -1,9 +1,9 @@
 import { Activity } from '../activity';
 
-export type CreateActivityProps = Omit<Activity, 'createdAt' | 'updatedAt'>;
+export type CreateActivityArgs = Omit<Activity, 'createdAt' | 'updatedAt'>;
 
 export interface ActivityRepo {
   exists(activityId: string): Promise<boolean>;
-  save(activity: CreateActivityProps): Promise<Activity>;
+  save(activity: CreateActivityArgs): Promise<Activity>;
   findByNameAndOwner(activityName: string, ownerId: string): Promise<Activity | null>;
 }

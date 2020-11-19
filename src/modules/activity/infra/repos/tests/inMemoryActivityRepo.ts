@@ -1,6 +1,6 @@
 import {
   ActivityRepo as IActivityRepo,
-  CreateActivityProps,
+  CreateActivityArgs,
 } from '../../../domain/repos/activityRepo';
 import { Activity } from '../../../domain/activity';
 
@@ -11,7 +11,7 @@ export class InMemoryActivityRepo implements IActivityRepo {
     this.activities = [];
   }
 
-  async save(partialActivity: CreateActivityProps): Promise<Activity> {
+  async save(partialActivity: CreateActivityArgs): Promise<Activity> {
     const activity = {
       ...partialActivity,
       createdAt: new Date(),
