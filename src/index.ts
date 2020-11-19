@@ -1,4 +1,13 @@
-import { env } from './config';
+import { PubSub } from 'apollo-server-express';
 
-console.log('PORT', env.PORT);
-console.log('ENV', env.ENVIRONMENT);
+import { useCasesBootstrap } from './bootstrap/useCases';
+import { userServices } from './bootstrap/services';
+import { startServer } from './shared/infra/graphql/server';
+import { getContext } from './shared/infra/graphql/context';
+
+const pubSub = new PubSub();
+
+const useCases = useCasesBootstrap(userServices);
+const context = getContext({ useCases, authService: userServices.auth, pubSub });
+
+startServer(context);

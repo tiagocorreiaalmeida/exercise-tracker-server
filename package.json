@@ -12,7 +12,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "commit": "npx git-cz",
-    "precommit": "lint-staged && tsc"
+    "precommit": "lint-staged && tsc",
+    "generate:typed-schema": "npx graphql-codegen"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,9 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@graphql-codegen/cli": "^1.19.2",
+    "@graphql-codegen/typescript": "^1.17.11",
+    "@graphql-codegen/typescript-resolvers": "^1.17.11",
     "@types/bcrypt": "^3.0.0",
     "@types/faker": "^5.1.4",
     "@types/jest": "^26.0.0",
@@ -51,11 +55,16 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "apollo-server-express": "^2.19.0",
     "bcrypt": "^5.0.0",
     "env-cmd": "^10.1.0",
     "env-var": "^6.1.1",
+    "express": "^4.17.1",
+    "graphql": "^15.4.0",
+    "graphql-modules": "^1.0.0-alpha.2",
     "jsonwebtoken": "^8.5.1",
     "ms": "^2.1.2",
+    "subscriptions-transport-ws": "^0.9.18",
     "uuid": "^8.3.1",
     "validator": "^13.1.17"
   },
