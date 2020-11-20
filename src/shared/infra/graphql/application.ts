@@ -1,21 +1,9 @@
-import { createApplication, createModule, gql } from 'graphql-modules';
+import { createApplication } from 'graphql-modules';
 
-const testModule = createModule({
-  id: 'test-module',
-  typeDefs: gql`
-    type Query {
-      test: String!
-    }
-  `,
-  resolvers: {
-    Query: {
-      test: () => 'Server running',
-    },
-  },
-});
+import { userModule } from '../../../modules/user/infra/graphql/userModule';
 
 export const application = createApplication({
-  modules: [testModule],
+  modules: [userModule],
 });
 
 export const subscribe = application.createSubscription();
