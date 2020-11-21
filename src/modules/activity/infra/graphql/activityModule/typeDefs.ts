@@ -9,7 +9,6 @@ export const typeDefs = gql`
   type Activity {
     id: ID!
     ownerId: ID!
-    owner: User!
     name: String!
     trackType: TrackType!
     createdAt: Date!
@@ -21,7 +20,6 @@ export const typeDefs = gql`
   }
 
   input CreateActivityInput {
-    ownerId: ID!
     name: String!
     trackType: TrackType!
   }

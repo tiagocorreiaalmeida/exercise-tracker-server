@@ -1,4 +1,4 @@
-import { CreateActivityUseCase } from '../createActivityLogUseCase';
+import { CreateActivityLogUseCase } from '../createActivityLogUseCase';
 import { InMemoryActivityRepo } from '../../../infra/repos/tests/inMemoryActivityRepo';
 import { ACTIVITY_NOT_FOUND } from '../createActivityLogErrors';
 import { CreateActivityLogDTO } from '../createActivityLogUseCaseDTO';
@@ -17,7 +17,7 @@ describe('CreateActivityLog', () => {
   const activityRepo = new InMemoryActivityRepo();
   const activityLogRepo = new InMemoryActivityLogRepo();
   const activity = generateActivityCreateData();
-  const createActivityLogUseCase = new CreateActivityUseCase(activityLogRepo, activityRepo);
+  const createActivityLogUseCase = new CreateActivityLogUseCase(activityLogRepo, activityRepo);
 
   const validDto: CreateActivityLogDTO = {
     quantity: 10,
