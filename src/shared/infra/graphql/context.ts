@@ -15,6 +15,7 @@ declare global {
       userId?: string;
       pubSub: PubSub;
     }
+    type AuthContext = Required<GlobalContext>;
   }
 }
 
