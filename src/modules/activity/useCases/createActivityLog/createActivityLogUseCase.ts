@@ -7,7 +7,7 @@ import { ACTIVITY_NOT_FOUND } from './createActivityLogErrors';
 import { UniqueEntityID } from '../../../../shared/core/UniqueEntityID';
 import { ActivityLogRepo } from '../../domain/repos/activityLogRepo';
 
-export class CreateActivityUseCase
+export class CreateActivityLogUseCase
   implements UseCase<CreateActivityLogDTO, Result<CreateActivityLogDTOResponse>> {
   constructor(private activityLogRepo: ActivityLogRepo, private activityRepo: ActivityRepo) {}
   async execute(dto: CreateActivityLogDTO): Promise<Result<CreateActivityLogDTOResponse>> {

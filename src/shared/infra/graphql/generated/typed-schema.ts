@@ -73,15 +73,14 @@ export type LoginPayload = {
 };
 
 export enum TrackType {
-  Time = 'TIME',
-  Quantity = 'QUANTITY'
+  TIME = 'TIME',
+  QUANTITY = 'QUANTITY'
 }
 
 export type Activity = {
   __typename?: 'Activity';
   id: Scalars['ID'];
   ownerId: Scalars['ID'];
-  owner: User;
   name: Scalars['String'];
   trackType: TrackType;
   createdAt: Scalars['Date'];
@@ -89,7 +88,6 @@ export type Activity = {
 };
 
 export type CreateActivityInput = {
-  ownerId: Scalars['ID'];
   name: Scalars['String'];
   trackType: TrackType;
 };
@@ -246,7 +244,6 @@ export type LoginPayloadResolvers<ContextType = any, ParentType extends Resolver
 export type ActivityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Activity'] = ResolversParentTypes['Activity']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   trackType?: Resolver<ResolversTypes['TrackType'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
