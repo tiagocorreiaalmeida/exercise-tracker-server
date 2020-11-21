@@ -3,11 +3,10 @@ import { UserInputError } from 'apollo-server-express';
 
 export const resolvers = {
   Mutation: {
-    async createActivity(_, { data }, { useCases, userId }: GraphQLModules.Context) {
+    async createActivity(_, { data }, { useCases, userId }: GraphQLModules.AuthContext) {
       const dataOrError = await useCases.activity.createActivity.execute({
         ...data,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        ownerId: userId!,
+        ownerId: userId,
       });
       if (dataOrError.isError) {
         throw new UserInputError(dataOrError.getErrorMessage());
