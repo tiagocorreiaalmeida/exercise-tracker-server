@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -9,7 +9,16 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
+  /** A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Time: any;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
 };
+
+
+
 
 export type User = {
   __typename?: 'User';
@@ -27,6 +36,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: LoginPayload;
   register: User;
+  createActivity: Activity;
 };
 
 
@@ -37,6 +47,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   data: RegisterInput;
+};
+
+
+export type MutationCreateActivityArgs = {
+  data: CreateActivityInput;
 };
 
 export type LoginInput = {
@@ -55,6 +70,28 @@ export type LoginPayload = {
   user: User;
   accessToken: Scalars['String'];
   refreshToken: Scalars['String'];
+};
+
+export enum TrackType {
+  Time = 'TIME',
+  Quantity = 'QUANTITY'
+}
+
+export type Activity = {
+  __typename?: 'Activity';
+  id: Scalars['ID'];
+  ownerId: Scalars['ID'];
+  owner: User;
+  name: Scalars['String'];
+  trackType: TrackType;
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+};
+
+export type CreateActivityInput = {
+  ownerId: Scalars['ID'];
+  name: Scalars['String'];
+  trackType: TrackType;
 };
 
 
@@ -135,6 +172,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Time: ResolverTypeWrapper<Scalars['Time']>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -143,11 +183,17 @@ export type ResolversTypes = {
   LoginInput: LoginInput;
   RegisterInput: RegisterInput;
   LoginPayload: ResolverTypeWrapper<LoginPayload>;
+  TrackType: TrackType;
+  Activity: ResolverTypeWrapper<Activity>;
+  CreateActivityInput: CreateActivityInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  DateTime: Scalars['DateTime'];
+  Time: Scalars['Time'];
+  Date: Scalars['Date'];
   User: User;
   ID: Scalars['ID'];
   String: Scalars['String'];
@@ -156,8 +202,22 @@ export type ResolversParentTypes = {
   LoginInput: LoginInput;
   RegisterInput: RegisterInput;
   LoginPayload: LoginPayload;
+  Activity: Activity;
+  CreateActivityInput: CreateActivityInput;
   Boolean: Scalars['Boolean'];
 };
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
+  name: 'Time';
+}
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -173,6 +233,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['LoginPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'data'>>;
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'data'>>;
+  createActivity?: Resolver<ResolversTypes['Activity'], ParentType, ContextType, RequireFields<MutationCreateActivityArgs, 'data'>>;
 };
 
 export type LoginPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']> = {
@@ -182,11 +243,26 @@ export type LoginPayloadResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ActivityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Activity'] = ResolversParentTypes['Activity']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  trackType?: Resolver<ResolversTypes['TrackType'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
+  DateTime?: GraphQLScalarType;
+  Time?: GraphQLScalarType;
+  Date?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   LoginPayload?: LoginPayloadResolvers<ContextType>;
+  Activity?: ActivityResolvers<ContextType>;
 };
 
 
