@@ -17,15 +17,19 @@ describe('CreateActivityLog', () => {
   const activityRepo = new InMemoryActivityRepo();
   const activityLogRepo = new InMemoryActivityLogRepo();
   const activity = generateActivityCreateData();
+  const otherUserActivity = generateActivityCreateData();
   const createActivityLogUseCase = new CreateActivityLogUseCase(activityLogRepo, activityRepo);
 
   const validDto: CreateActivityLogDTO = {
+    userId: activity.ownerId,
     quantity: 10,
     activityId: activity.id,
+    practicedAt: new Date(),
   };
 
   beforeAll(async () => {
     await activityRepo.save(activity);
+    await activityRepo.save(otherUserActivity);
   });
 
   it('Should reject a quantity lower than 1', async () => {
@@ -47,6 +51,16 @@ describe('CreateActivityLog', () => {
       activityId: new UniqueEntityID().toString(),
     });
 
+    expect(result.isError).toBeTruthy();
+
+    expect(result.getError()).toStrictEqual(ACTIVITY_NOT_FOUND);
+  });
+
+  it('should refuse an activityLog to an activity that does not belong to the user', async () => {
+    const result = await createActivityLogUseCase.execute({
+      ...validDto,
+      activityId: otherUserActivity.id,
+    });
     expect(result.isError).toBeTruthy();
 
     expect(result.getError()).toStrictEqual(ACTIVITY_NOT_FOUND);

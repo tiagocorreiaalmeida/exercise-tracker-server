@@ -7,6 +7,7 @@ interface Validator {
   isEmail(email: string): boolean;
   isLength(args: isLengthArgs): boolean;
   isRange(args: isRangeArgs): boolean;
+  isDate(value: string): boolean;
 }
 
 export const validator: Validator = {
@@ -18,5 +19,8 @@ export const validator: Validator = {
   },
   isRange({ value, min, max }: isRangeArgs) {
     return value >= min && (typeof max === 'undefined' || value <= max);
+  },
+  isDate(value: string) {
+    return !!externalValidator.toDate(value);
   },
 };

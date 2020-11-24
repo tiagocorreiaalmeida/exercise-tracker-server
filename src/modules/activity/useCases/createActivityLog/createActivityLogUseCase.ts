@@ -17,7 +17,7 @@ export class CreateActivityLogUseCase
       return Result.fail<CreateActivityLogDTOResponse>(validation.getError());
     }
 
-    const activityExists = await this.activityRepo.exists(dto.activityId);
+    const activityExists = await this.activityRepo.findByIdAndOwner(dto.activityId, dto.userId);
     if (!activityExists) {
       return Result.fail<CreateActivityLogDTOResponse>(ACTIVITY_NOT_FOUND);
     }

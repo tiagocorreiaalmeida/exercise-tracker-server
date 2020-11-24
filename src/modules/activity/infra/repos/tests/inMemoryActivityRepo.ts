@@ -36,6 +36,14 @@ export class InMemoryActivityRepo implements IActivityRepo {
 
     return !!activity;
   }
+
+  async findByIdAndOwner(activityId: string, ownerId: string): Promise<Activity | null> {
+    const activity = this.activities.find(
+      (storedActivity) => storedActivity.id === activityId && storedActivity.ownerId === ownerId,
+    );
+
+    return activity || null;
+  }
 }
 
 export const ActivityRepo = new InMemoryActivityRepo();

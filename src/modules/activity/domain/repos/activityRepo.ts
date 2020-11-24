@@ -6,4 +6,5 @@ export interface ActivityRepo {
   exists(activityId: string): Promise<boolean>;
   save(activity: CreateActivityArgs): Promise<Activity>;
   findByNameAndOwner(activityName: string, ownerId: string): Promise<Activity | null>;
+  findByIdAndOwner(activityId: string, ownerId: string): Promise<Activity | null>;
 }
