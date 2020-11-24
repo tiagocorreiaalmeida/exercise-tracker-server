@@ -11,8 +11,8 @@ export const typeDefs = gql`
     ownerId: ID!
     name: String!
     trackType: TrackType!
-    createdAt: Date!
-    updatedAt: Date!
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 
   extend type Mutation {

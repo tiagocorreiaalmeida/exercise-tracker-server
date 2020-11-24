@@ -37,6 +37,7 @@ export type Mutation = {
   login: LoginPayload;
   register: User;
   createActivity: Activity;
+  createActivityLog: ActivityLog;
 };
 
 
@@ -52,6 +53,11 @@ export type MutationRegisterArgs = {
 
 export type MutationCreateActivityArgs = {
   data: CreateActivityInput;
+};
+
+
+export type MutationCreateActivityLogArgs = {
+  data: CreateActivityLogInput;
 };
 
 export type LoginInput = {
@@ -83,13 +89,29 @@ export type Activity = {
   ownerId: Scalars['ID'];
   name: Scalars['String'];
   trackType: TrackType;
-  createdAt: Scalars['Date'];
-  updatedAt: Scalars['Date'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type CreateActivityInput = {
   name: Scalars['String'];
   trackType: TrackType;
+};
+
+export type ActivityLog = {
+  __typename?: 'ActivityLog';
+  id: Scalars['ID'];
+  activityId: Scalars['ID'];
+  quantity: Scalars['Int'];
+  practicedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CreateActivityLogInput = {
+  activityId: Scalars['ID'];
+  quantity: Scalars['Int'];
+  practicedAt: Scalars['DateTime'];
 };
 
 
@@ -184,6 +206,9 @@ export type ResolversTypes = {
   TrackType: TrackType;
   Activity: ResolverTypeWrapper<Activity>;
   CreateActivityInput: CreateActivityInput;
+  ActivityLog: ResolverTypeWrapper<ActivityLog>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  CreateActivityLogInput: CreateActivityLogInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -202,6 +227,9 @@ export type ResolversParentTypes = {
   LoginPayload: LoginPayload;
   Activity: Activity;
   CreateActivityInput: CreateActivityInput;
+  ActivityLog: ActivityLog;
+  Int: Scalars['Int'];
+  CreateActivityLogInput: CreateActivityLogInput;
   Boolean: Scalars['Boolean'];
 };
 
@@ -232,6 +260,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   login?: Resolver<ResolversTypes['LoginPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'data'>>;
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'data'>>;
   createActivity?: Resolver<ResolversTypes['Activity'], ParentType, ContextType, RequireFields<MutationCreateActivityArgs, 'data'>>;
+  createActivityLog?: Resolver<ResolversTypes['ActivityLog'], ParentType, ContextType, RequireFields<MutationCreateActivityLogArgs, 'data'>>;
 };
 
 export type LoginPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']> = {
@@ -246,8 +275,18 @@ export type ActivityResolvers<ContextType = any, ParentType extends ResolversPar
   ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   trackType?: Resolver<ResolversTypes['TrackType'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ActivityLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivityLog'] = ResolversParentTypes['ActivityLog']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  activityId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  practicedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -260,6 +299,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   LoginPayload?: LoginPayloadResolvers<ContextType>;
   Activity?: ActivityResolvers<ContextType>;
+  ActivityLog?: ActivityLogResolvers<ContextType>;
 };
 
 

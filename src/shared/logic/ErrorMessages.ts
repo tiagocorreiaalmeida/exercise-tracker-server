@@ -32,3 +32,8 @@ export const invalidRangeError = (
     : `${paramName} should be at least ${min}.`,
   field: paramName,
 });
+
+export const invalidDate = (paramName: string): ErrorWithField => ({
+  message: `${paramName} is not a valid date`,
+  field: paramName,
+});
