@@ -17,6 +17,7 @@ export const typeDefs = gql`
 
   extend type Mutation {
     createExercise(data: CreateExerciseInput!): Exercise!
+    createGlobalExercise(data: CreateExerciseInput!): Exercise!
   }
 
   input CreateExerciseInput {

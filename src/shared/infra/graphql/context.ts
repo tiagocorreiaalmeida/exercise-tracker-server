@@ -5,6 +5,7 @@ import { ExecutionParams } from 'subscriptions-transport-ws';
 
 import { UseCases } from '../../../bootstrap/useCases';
 import { AuthService } from '../../../modules/user/services/auth/authService';
+import { UserRepo } from '../../../modules/user/domain/repos/userRepo';
 
 declare global {
   namespace GraphQLModules {
@@ -13,6 +14,7 @@ declare global {
       req: Request;
       res: Response;
       userId?: string;
+      userRepo: UserRepo;
       pubSub: PubSub;
     }
     type AuthContext = Required<GlobalContext>;
@@ -25,10 +27,12 @@ export const getContext = ({
   authService,
   useCases,
   pubSub,
+  userRepo,
 }: {
   authService: AuthService;
   useCases: UseCases;
   pubSub: PubSub;
+  userRepo: UserRepo;
 }) => async ({
   req,
   res,
@@ -56,5 +60,6 @@ export const getContext = ({
     pubSub,
     useCases,
     userId,
+    userRepo,
   };
 };
