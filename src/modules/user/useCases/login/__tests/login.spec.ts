@@ -18,6 +18,7 @@ const generateUserCreateData = () => {
     password: passwordService.hash(password),
     plainTextPassword: password,
     username: faker.internet.userName(),
+    isAdmin: false,
   };
 };
 

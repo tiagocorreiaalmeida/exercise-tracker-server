@@ -12,9 +12,10 @@ interface UserCreateData {
   password: string;
   plainTextPassword: string;
   username: string;
+  isAdmin: boolean;
 }
 
-export const generateUserCreateData = (): UserCreateData => {
+export const generateUserCreateData = (isAdmin = false): UserCreateData => {
   const password = 'a'.repeat(PASSWORD_MIN_LENGTH);
 
   return {
@@ -23,5 +24,6 @@ export const generateUserCreateData = (): UserCreateData => {
     password: passwordService.hash(password),
     plainTextPassword: password,
     username: faker.internet.userName(),
+    isAdmin,
   };
 };
