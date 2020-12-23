@@ -2,11 +2,11 @@ import { createApplication } from 'graphql-modules';
 
 import { commonModule } from './modules/commonModule';
 import { userModule } from '../../../modules/user/infra/graphql/userModule';
-import { activityModule } from '../../../modules/activity/infra/graphql/activityModule';
-import { activityLogModule } from '../../../modules/activity/infra/graphql/activityLogModule';
+import { exerciseModule } from '../../../modules/exercise/infra/graphql/exerciseModule';
+import { exerciseLogModule } from '../../../modules/exercise/infra/graphql/exerciseLogModule';
 
 export const application = createApplication({
-  modules: [commonModule, userModule, activityModule, activityLogModule],
+  modules: [commonModule, userModule, exerciseModule, exerciseLogModule],
 });
 
 export const subscribe = application.createSubscription();

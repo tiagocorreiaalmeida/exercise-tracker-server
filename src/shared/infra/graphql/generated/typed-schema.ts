@@ -1,7 +1,8 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
+  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,9 +17,6 @@ export type Scalars = {
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
 };
-
-
-
 
 export type User = {
   __typename?: 'User';
@@ -36,28 +34,24 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: LoginPayload;
   register: User;
-  createActivity: Activity;
-  createActivityLog: ActivityLog;
+  createExercise: Exercise;
+  createExerciseLog: ExerciseLog;
 };
-
 
 export type MutationLoginArgs = {
   data: LoginInput;
 };
 
-
 export type MutationRegisterArgs = {
   data: RegisterInput;
 };
 
-
-export type MutationCreateActivityArgs = {
-  data: CreateActivityInput;
+export type MutationCreateExerciseArgs = {
+  data: CreateExerciseInput;
 };
 
-
-export type MutationCreateActivityLogArgs = {
-  data: CreateActivityLogInput;
+export type MutationCreateExerciseLogArgs = {
+  data: CreateExerciseLogInput;
 };
 
 export type LoginInput = {
@@ -80,11 +74,11 @@ export type LoginPayload = {
 
 export enum TrackType {
   TIME = 'TIME',
-  QUANTITY = 'QUANTITY'
+  QUANTITY = 'QUANTITY',
 }
 
-export type Activity = {
-  __typename?: 'Activity';
+export type Exercise = {
+  __typename?: 'Exercise';
   id: Scalars['ID'];
   ownerId: Scalars['ID'];
   name: Scalars['String'];
@@ -93,31 +87,28 @@ export type Activity = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type CreateActivityInput = {
+export type CreateExerciseInput = {
   name: Scalars['String'];
   trackType: TrackType;
 };
 
-export type ActivityLog = {
-  __typename?: 'ActivityLog';
+export type ExerciseLog = {
+  __typename?: 'ExerciseLog';
   id: Scalars['ID'];
-  activityId: Scalars['ID'];
+  exerciseId: Scalars['ID'];
   quantity: Scalars['Int'];
   practicedAt: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
 
-export type CreateActivityLogInput = {
-  activityId: Scalars['ID'];
+export type CreateExerciseLogInput = {
+  exerciseId: Scalars['ID'];
   quantity: Scalars['Int'];
   practicedAt: Scalars['DateTime'];
 };
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -128,7 +119,9 @@ export type NewStitchingResolver<TResult, TParent, TContext, TArgs> = {
   selectionSet: string;
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type StitchingResolver<TResult, TParent, TContext, TArgs> = LegacyStitchingResolver<TResult, TParent, TContext, TArgs> | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
+export type StitchingResolver<TResult, TParent, TContext, TArgs> =
+  | LegacyStitchingResolver<TResult, TParent, TContext, TArgs>
+  | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | StitchingResolver<TResult, TParent, TContext, TArgs>;
@@ -137,24 +130,30 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> {
   subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
   resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
@@ -168,17 +167,27 @@ export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, 
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> =
   | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -187,7 +196,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -204,11 +213,11 @@ export type ResolversTypes = {
   RegisterInput: RegisterInput;
   LoginPayload: ResolverTypeWrapper<LoginPayload>;
   TrackType: TrackType;
-  Activity: ResolverTypeWrapper<Activity>;
-  CreateActivityInput: CreateActivityInput;
-  ActivityLog: ResolverTypeWrapper<ActivityLog>;
+  Exercise: ResolverTypeWrapper<Exercise>;
+  CreateExerciseInput: CreateExerciseInput;
+  ExerciseLog: ResolverTypeWrapper<ExerciseLog>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  CreateActivityLogInput: CreateActivityLogInput;
+  CreateExerciseLogInput: CreateExerciseLogInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -225,15 +234,16 @@ export type ResolversParentTypes = {
   LoginInput: LoginInput;
   RegisterInput: RegisterInput;
   LoginPayload: LoginPayload;
-  Activity: Activity;
-  CreateActivityInput: CreateActivityInput;
-  ActivityLog: ActivityLog;
+  Exercise: Exercise;
+  CreateExerciseInput: CreateExerciseInput;
+  ExerciseLog: ExerciseLog;
   Int: Scalars['Int'];
-  CreateActivityLogInput: CreateActivityLogInput;
+  CreateExerciseLogInput: CreateExerciseLogInput;
   Boolean: Scalars['Boolean'];
 };
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
@@ -245,32 +255,67 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Date';
 }
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+> = {
   test?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  login?: Resolver<ResolversTypes['LoginPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'data'>>;
-  register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'data'>>;
-  createActivity?: Resolver<ResolversTypes['Activity'], ParentType, ContextType, RequireFields<MutationCreateActivityArgs, 'data'>>;
-  createActivityLog?: Resolver<ResolversTypes['ActivityLog'], ParentType, ContextType, RequireFields<MutationCreateActivityLogArgs, 'data'>>;
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = {
+  login?: Resolver<
+    ResolversTypes['LoginPayload'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationLoginArgs, 'data'>
+  >;
+  register?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRegisterArgs, 'data'>
+  >;
+  createExercise?: Resolver<
+    ResolversTypes['Exercise'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateExerciseArgs, 'data'>
+  >;
+  createExerciseLog?: Resolver<
+    ResolversTypes['ExerciseLog'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateExerciseLogArgs, 'data'>
+  >;
 };
 
-export type LoginPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']> = {
+export type LoginPayloadResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']
+> = {
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ActivityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Activity'] = ResolversParentTypes['Activity']> = {
+export type ExerciseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Exercise'] = ResolversParentTypes['Exercise']
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -280,9 +325,12 @@ export type ActivityResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ActivityLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivityLog'] = ResolversParentTypes['ActivityLog']> = {
+export type ExerciseLogResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ExerciseLog'] = ResolversParentTypes['ExerciseLog']
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  activityId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  exerciseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   practicedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -298,10 +346,9 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   LoginPayload?: LoginPayloadResolvers<ContextType>;
-  Activity?: ActivityResolvers<ContextType>;
-  ActivityLog?: ActivityLogResolvers<ContextType>;
+  Exercise?: ExerciseResolvers<ContextType>;
+  ExerciseLog?: ExerciseLogResolvers<ContextType>;
 };
-
 
 /**
  * @deprecated
