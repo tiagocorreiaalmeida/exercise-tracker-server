@@ -13,3 +13,9 @@ export class ConflictError extends HandledError {
     super(message);
   }
 }
+
+export class ForbiddenError extends HandledError {
+  constructor(public readonly message: string, public readonly field?: string) {
+    super(message);
+  }
+}

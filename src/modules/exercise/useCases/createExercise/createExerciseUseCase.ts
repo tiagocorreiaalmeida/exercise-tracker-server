@@ -4,7 +4,11 @@ import { Result } from '../../../../shared/core/Result';
 import { ExerciseRepo } from '../../domain/repos/exerciseRepo';
 import { UserRepo } from '../../../user/domain/repos/userRepo';
 import { validateExerciseCreate } from './createExerciseValidator';
-import { DUPLICATED_EXERCISE_NAME, USER_NOT_FOUND } from './createExerciseErrors';
+import {
+  DUPLICATED_EXERCISE_NAME,
+  USER_NOT_FOUND,
+  PERMISSION_DENIED,
+} from './createExerciseErrors';
 import { UniqueEntityID } from '../../../../shared/core/UniqueEntityID';
 
 export class CreateExerciseUseCase
@@ -17,9 +21,13 @@ export class CreateExerciseUseCase
       return Result.fail<CreateExerciseDTOResponse>(validation.getError());
     }
 
-    const userExists = await this.userRepo.exists(dto.ownerId);
-    if (!userExists) {
+    const user = await this.userRepo.findById(dto.ownerId);
+    if (!user) {
       return Result.fail<CreateExerciseDTOResponse>(USER_NOT_FOUND);
+    }
+
+    if (dto?.isShared && !user.isAdmin) {
+      return Result.fail<CreateExerciseDTOResponse>(PERMISSION_DENIED);
     }
 
     const exerciseExists = await this.exerciseRepo.findByNameAndOwner(dto.name, dto.ownerId);
@@ -29,6 +37,7 @@ export class CreateExerciseUseCase
 
     const exercise = await this.exerciseRepo.save({
       ...dto,
+      isShared: !!dto.isShared,
       id: new UniqueEntityID().toString(),
     });
 

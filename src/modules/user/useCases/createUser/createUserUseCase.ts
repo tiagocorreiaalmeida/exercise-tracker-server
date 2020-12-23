@@ -26,6 +26,7 @@ export class CreateUserUseCase implements UseCase<CreateUserUseCaseDTO, Result<U
 
     const user: User = {
       ...dto,
+      isAdmin: false,
       id: new UniqueEntityID().toString(),
       password: hashedPassword,
     };

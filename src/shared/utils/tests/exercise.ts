@@ -7,6 +7,7 @@ import { UniqueEntityID } from '../../core/UniqueEntityID';
 export const generateExerciseCreateData = (
   ownerId: string = new UniqueEntityID().toString(),
   trackType: TrackType = TrackType.QUANTITY,
+  isShared = false,
 ): CreateExerciseArgs => {
   const name = 'a'.repeat(MIN_NAME_LENGTH);
 
@@ -15,5 +16,6 @@ export const generateExerciseCreateData = (
     name,
     trackType,
     ownerId,
+    isShared,
   };
 };
