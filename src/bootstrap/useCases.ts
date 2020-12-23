@@ -2,9 +2,9 @@ import { userUseCases } from '../modules/user/useCases';
 import { UserRepo } from '../modules/user/infra/repos/tests/inMemoryUserRepo';
 import { BcryptPasswordService } from '../modules/user/services/password/bcryptPasswordService';
 import { AuthService } from '../modules/user/services/auth';
-import { activityUseCases } from '../modules/activity/useCases';
-import { ActivityRepo } from '../modules/activity/infra/repos/tests/inMemoryActivityRepo';
-import { ActivityLogRepo } from '../modules/activity/infra/repos/tests/inMemoryActivityLogRepo';
+import { exerciseUseCases } from '../modules/exercise/useCases';
+import { ExerciseRepo } from '../modules/exercise/infra/repos/tests/inMemoryExerciseRepo';
+import { ExerciseLogRepo } from '../modules/exercise/infra/repos/tests/inMemoryExerciseLogRepo';
 
 interface BootstrapUseCasesServices {
   auth: AuthService;
@@ -13,7 +13,7 @@ interface BootstrapUseCasesServices {
 
 export interface UseCases {
   user: ReturnType<typeof userUseCases>;
-  activity: ReturnType<typeof activityUseCases>;
+  exercise: ReturnType<typeof exerciseUseCases>;
 }
 
 type UseCasesBootstrap = (services: BootstrapUseCasesServices) => UseCases;
@@ -24,9 +24,9 @@ export const useCasesBootstrap: UseCasesBootstrap = (services: BootstrapUseCases
     authService: services.auth,
     passwordService: services.password,
   }),
-  activity: activityUseCases({
+  exercise: exerciseUseCases({
     userRepo: UserRepo,
-    activityLogRepo: ActivityLogRepo,
-    activityRepo: ActivityRepo,
+    exerciseLogRepo: ExerciseLogRepo,
+    exerciseRepo: ExerciseRepo,
   }),
 });
