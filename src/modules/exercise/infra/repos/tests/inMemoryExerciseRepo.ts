@@ -5,10 +5,10 @@ import {
 import { Exercise } from '../../../domain/exercise';
 
 export class InMemoryExerciseRepo implements IExerciseRepo {
-  activities: Exercise[];
+  exercises: Exercise[];
 
   constructor() {
-    this.activities = [];
+    this.exercises = [];
   }
 
   async save(partialExercise: CreateExerciseArgs): Promise<Exercise> {
@@ -18,12 +18,12 @@ export class InMemoryExerciseRepo implements IExerciseRepo {
       updatedAt: new Date(),
     };
 
-    this.activities.push(exercise);
+    this.exercises.push(exercise);
     return exercise;
   }
 
   async findByNameAndOwner(exerciseName: string, ownerId: string): Promise<Exercise | null> {
-    const exercise = this.activities.find(
+    const exercise = this.exercises.find(
       (storedExercise) =>
         storedExercise.name === exerciseName && storedExercise.ownerId === ownerId,
     );
@@ -32,13 +32,13 @@ export class InMemoryExerciseRepo implements IExerciseRepo {
   }
 
   async exists(exerciseId: string): Promise<boolean> {
-    const exercise = this.activities.find((storedExercise) => storedExercise.id === exerciseId);
+    const exercise = this.exercises.find((storedExercise) => storedExercise.id === exerciseId);
 
     return !!exercise;
   }
 
   async findByIdAndOwner(exerciseId: string, ownerId: string): Promise<Exercise | null> {
-    const exercise = this.activities.find(
+    const exercise = this.exercises.find(
       (storedExercise) => storedExercise.id === exerciseId && storedExercise.ownerId === ownerId,
     );
 

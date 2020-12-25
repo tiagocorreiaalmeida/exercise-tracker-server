@@ -5,10 +5,10 @@ import {
 import { ExerciseLog } from '../../../domain/exerciseLog';
 
 export class InMemoryExerciseLogRepo implements IExerciseLogRepo {
-  activitiesLog: ExerciseLog[];
+  exercisesLog: ExerciseLog[];
 
   constructor() {
-    this.activitiesLog = [];
+    this.exercisesLog = [];
   }
 
   async save(partialExerciseLog: CreateExerciseLogProps): Promise<ExerciseLog> {
@@ -18,12 +18,12 @@ export class InMemoryExerciseLogRepo implements IExerciseLogRepo {
       updatedAt: new Date(),
     };
 
-    this.activitiesLog.push(exerciseLog);
+    this.exercisesLog.push(exerciseLog);
     return exerciseLog;
   }
 
   async exists(exerciseLogId: string): Promise<boolean> {
-    const exerciseLog = this.activitiesLog.find(
+    const exerciseLog = this.exercisesLog.find(
       (storedExerciseLog) => storedExerciseLog.id === exerciseLogId,
     );
 
