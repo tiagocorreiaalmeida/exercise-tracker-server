@@ -5,6 +5,7 @@ import { AuthService } from '../modules/user/services/auth';
 import { exerciseUseCases } from '../modules/exercise/useCases';
 import { ExerciseRepo } from '../modules/exercise/infra/repos/tests/inMemoryExerciseRepo';
 import { ExerciseLogRepo } from '../modules/exercise/infra/repos/tests/inMemoryExerciseLogRepo';
+import { CategoryRepo } from '../modules/exercise/infra/repos/tests/inMemoryCategoryRepo';
 
 interface BootstrapUseCasesServices {
   auth: AuthService;
@@ -28,5 +29,6 @@ export const useCasesBootstrap: UseCasesBootstrap = (services: BootstrapUseCases
     userRepo: UserRepo,
     exerciseLogRepo: ExerciseLogRepo,
     exerciseRepo: ExerciseRepo,
+    categoryRepo: CategoryRepo,
   }),
 });

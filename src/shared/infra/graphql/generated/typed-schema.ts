@@ -39,6 +39,7 @@ export type Mutation = {
   createExercise: Exercise;
   createGlobalExercise: Exercise;
   createExerciseLog: ExerciseLog;
+  createCategory: Category;
 };
 
 
@@ -64,6 +65,11 @@ export type MutationCreateGlobalExerciseArgs = {
 
 export type MutationCreateExerciseLogArgs = {
   data: CreateExerciseLogInput;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  data: CreateCategoryInput;
 };
 
 export type LoginInput = {
@@ -118,6 +124,19 @@ export type CreateExerciseLogInput = {
   exerciseId: Scalars['ID'];
   quantity: Scalars['Int'];
   practicedAt: Scalars['DateTime'];
+};
+
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  ownerId: Scalars['ID'];
+  name: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CreateCategoryInput = {
+  name: Scalars['String'];
 };
 
 
@@ -215,6 +234,8 @@ export type ResolversTypes = {
   ExerciseLog: ResolverTypeWrapper<ExerciseLog>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   CreateExerciseLogInput: CreateExerciseLogInput;
+  Category: ResolverTypeWrapper<Category>;
+  CreateCategoryInput: CreateCategoryInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -236,6 +257,8 @@ export type ResolversParentTypes = {
   ExerciseLog: ExerciseLog;
   Int: Scalars['Int'];
   CreateExerciseLogInput: CreateExerciseLogInput;
+  Category: Category;
+  CreateCategoryInput: CreateCategoryInput;
   Boolean: Scalars['Boolean'];
 };
 
@@ -268,6 +291,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createExercise?: Resolver<ResolversTypes['Exercise'], ParentType, ContextType, RequireFields<MutationCreateExerciseArgs, 'data'>>;
   createGlobalExercise?: Resolver<ResolversTypes['Exercise'], ParentType, ContextType, RequireFields<MutationCreateGlobalExerciseArgs, 'data'>>;
   createExerciseLog?: Resolver<ResolversTypes['ExerciseLog'], ParentType, ContextType, RequireFields<MutationCreateExerciseLogArgs, 'data'>>;
+  createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'data'>>;
 };
 
 export type LoginPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']> = {
@@ -297,6 +321,15 @@ export type ExerciseLogResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  ownerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Time?: GraphQLScalarType;
@@ -307,6 +340,7 @@ export type Resolvers<ContextType = any> = {
   LoginPayload?: LoginPayloadResolvers<ContextType>;
   Exercise?: ExerciseResolvers<ContextType>;
   ExerciseLog?: ExerciseLogResolvers<ContextType>;
+  Category?: CategoryResolvers<ContextType>;
 };
 
 
